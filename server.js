@@ -1,17 +1,22 @@
 const express = require("express");
+const app = express();
 const dbConnect = require("./config/dbConnect");
 const dotenv = require("dotenv").config();
-// const PORT = (process.env.PORT || 4000);
- const PORT = 4000;
+const authRouter = require("./routes/authRoutes");
+const bodyParser = require("body-parser");
+// const PORT = Number(process.env.PORT);
+// console.log("port", typeof process.env.PORT);
+ const PORT = 3000;
 dbConnect();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
-const app = express();
-
-app.use = ("/", (req, res)=>{
+app.use("/api/user", authRouter)
+app.use("/", (req, res)=>{
     res.send("hello there");
 })
 
 
 app.listen(PORT, ()=> {
-    console.log(`server is running at PORT ${PORT}`);
+    console.log(`Server is running on PORT ${PORT}`);
 })
