@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrpt = require('bcrypt');
 
 var userSchema = new mongoose.Schema({
     lastName:{
@@ -23,6 +24,16 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
+
+userSchema.pre("save", async function(next) {
+    const salt = await bcrpt.genSaltSync(10);
+    this.password = await bcrpt.hash(this.password, salt);
+});
+
+userSchema.methods.passwordMatched = async function(passwordEntered){
+    return await bcrpt.compare(passwordEntered, this.password);
+}
+
 
 module.exports = mongoose.model("User", userSchema);
