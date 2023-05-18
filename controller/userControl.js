@@ -12,6 +12,11 @@ const createNewUser = expressAsyncHandler(async(req, res) =>{
             throw new Error("User already exists!")
         }
    
-}) 
+});
 
-module.exports = {createNewUser}
+const loginUserControl = expressAsyncHandler(async (req, res) =>{
+    const {email, password} = req.body
+    console.log(`email: ${email}, password: ${password}`)
+})
+
+module.exports = {createNewUser, loginUserControl};
