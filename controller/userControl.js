@@ -61,21 +61,32 @@ const getAUser = expressAsyncHandler(async (req, res)=>{
 const updateUser = expressAsyncHandler(async (req, res)=>{
     const {id} = req.params;
     try{
-        const findUser = await User.findByIdAndUpdate(id);
+        const findAndUpdateUser = await User.findByIdAndUpdate(
+            id,
+            {
+                firstName: req.body.firstName,
+       			lastName: req.body.lastName,
+        		email: req.body.email,
+        		mobile: req.body.mobile,
+            },
+            {
+                new: true,
+            }
 
-
+        );
+        res.json(findAndUpdateUser);
     }catch(error){
         throw new Error(error);
     }
 
-})
+});
 
 //Delete a user from database
 const deleteUser = expressAsyncHandler(async(req, res)=>{
     const {id} = req.params;
     try{
-        const deleteUser = await User.findByIdAndDelete(id);
-        res.json(deleteUser);
+        const deleteAUser = await User.findByIdAndDelete(id);
+        res.json(deleteAUser);
         
     }catch(error){
         throw new Error(error);
