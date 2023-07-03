@@ -32,8 +32,8 @@ var userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    address: [{type: Object, ref:"Address"}],
-    wishlist: [{type: Object, ref:"Product"}]
+    address: [{type: mongoose.Schema.Types.ObjectId, ref:"Address"}],
+    wishlist: [{type: mongoose.Schema.Types.ObjectId, ref:"Product"}]
 },{
     timestamps:true,
 });
